@@ -10,13 +10,13 @@ const CROUT = "CROUT";
 btnCrout.onclick = function () {
   var matriz = validarYObtenerMatriz(matrizDOM);
   console.log(matriz);
-  FactorizacionDoolittleOCrout(matriz,"CROUT");
+  factorizacionDoolittleOCrout(matriz,"CROUT");
 };
 
 btnDoolittle.onclick = function () {
   var matriz = validarYObtenerMatriz(matrizDOM);
   console.log(matriz);
-  FactorizacionDoolittleOCrout(matriz,"DOOLITTLE");
+  factorizacionDoolittleOCrout(matriz,"DOOLITTLE");
 };
 
 function validarYObtenerMatriz(matrizDOM) {
@@ -55,7 +55,7 @@ function validarYObtenerMatriz(matrizDOM) {
   return matriz;
 }
 
-function FactorizacionDoolittleOCrout(matriz, tipoFactorizacion) {
+function factorizacionDoolittleOCrout(matriz, tipoFactorizacion) {
   var matrizL = inicializaMatrizEnCeros(matriz.length);
   var matrizU = inicializaMatrizEnCeros(matriz.length);
 
