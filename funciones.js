@@ -4,19 +4,19 @@ const btnCrout = document.getElementById("crout");
 const btnDoolittle = document.getElementById("doolittle");
 const btnCholesky = document.getElementById("cholesky");
 
-const DOOLITTLE = 1;
-const CROUT = 2;
+const DOOLITTLE = "DOOLITTLE";
+const CROUT = "CROUT";
 
 btnCrout.onclick = function () {
   var matriz = validarYObtenerMatriz(matrizDOM);
   console.log(matriz);
-  FactorizacionDoolittleOCrout(matriz,CROUT);
+  FactorizacionDoolittleOCrout(matriz,"CROUT");
 };
 
 btnDoolittle.onclick = function () {
   var matriz = validarYObtenerMatriz(matrizDOM);
   console.log(matriz);
-  FactorizacionDoolittleOCrout(matriz,DOOLITTLE);
+  FactorizacionDoolittleOCrout(matriz,"DOOLITTLE");
 };
 
 function validarYObtenerMatriz(matrizDOM) {
@@ -64,7 +64,6 @@ function FactorizacionDoolittleOCrout(matriz, tipoFactorizacion) {
   let productoParaL = 0;
 
   for (let k = 0; k < dimension; k++) {
-    console.log(tipoFactorizacion);
     if(tipoFactorizacion == DOOLITTLE) {
       matrizL[k][k] = 1;
     }
