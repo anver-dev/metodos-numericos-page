@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+
+    <title>Metodos Numericos</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Metodos Numericos</a>
+      </div>
+    </nav>
+    <main>
+      <div class="container py-4">
+        <header class="pb-3 mb-4 border-bottom">
+          <a
+            class="btn btn-outline-dark"
+            data-bs-toggle="collapse"
+            href="#descomposicionUL"
+            role="button"
+            aria-expanded="false"
+            aria-controls="descomposicionUL"
+          >
+            Descomposicion UL
+          </a>
+        </header>
+
+        <div
+          class="p-3 mb-4 bg-light bg-gradient rounded-3 collapse"
+          id="descomposicionUL"
+        >
+          <div class="container-fluid">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <textarea
+                      class="form-control"
+                      id="matriz"
+                      rows="5"
+                    ></textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="border-bottom">
+                      <h1 class="display-6">Métodos:</h1>
+                    </div>
+                    <div class="btn-group block pt-3">
+                      <button id="crout" type="button" class="btn btn-outline-success">
+                        Crout
+                      </button>
+                      <button id="doolittle" type="button" class="btn btn-outline-success">
+                        Doolittle
+                      </button>
+                      <button id="cholesky" type="button" class="btn btn-outline-success">
+                        Cholesky
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="p-2 mt-4 text-muted border-top">
+      &copy; 2021 | anver-dev
+    </footer>
+    <script src="funciones.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
