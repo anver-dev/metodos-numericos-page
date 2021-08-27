@@ -10,13 +10,19 @@ const CROUT = "CROUT";
 btnCrout.onclick = function () {
   var matriz = validarYObtenerMatriz(matrizDOM);
   console.log(matriz);
-  factorizacionDoolittleOCrout(matriz,"CROUT");
+  factorizacionDoolittleOCrout(matriz, "CROUT");
 };
 
 btnDoolittle.onclick = function () {
   var matriz = validarYObtenerMatriz(matrizDOM);
   console.log(matriz);
-  factorizacionDoolittleOCrout(matriz,"DOOLITTLE");
+  factorizacionDoolittleOCrout(matriz, "DOOLITTLE");
+};
+
+btnCholesky.onclick = function () {
+  var matriz = validarYObtenerMatriz(matrizDOM);
+  console.log(matriz);
+  factorizacionCholesky(matriz);
 };
 
 function validarYObtenerMatriz(matrizDOM) {
@@ -56,38 +62,54 @@ function validarYObtenerMatriz(matrizDOM) {
 }
 
 function factorizacionDoolittleOCrout(matriz, tipoFactorizacion) {
-  var matrizL = inicializaMatrizEnCeros(matriz.length);
-  var matrizU = inicializaMatrizEnCeros(matriz.length);
-
   let dimension = matriz.length;
   let productoParaU = 0;
   let productoParaL = 0;
+  let productoParaDiagonal = 0;
+
+  var matrizL = inicializaMatrizEnCeros(dimension);
+  var matrizU = inicializaMatrizEnCeros(dimension);
+
 
   for (let k = 0; k < dimension; k++) {
-    if(tipoFactorizacion == DOOLITTLE) {
+    if (tipoFactorizacion == DOOLITTLE) {
       matrizL[k][k] = 1;
-    }
-    if (tipoFactorizacion == CROUT) {
-      matrizU[k][k] = 1;
+
+      for (let s = 0; s < k; s++) {
+        productoParaDiagonal += matrizL[k][s] * matrizU[s][k];
+      }
+      matrizU[k][k] = (matriz[k][k] - productoParaDiagonal) / matrizL[k][k];
     }
 
-    for (let j = k; j < dimension; j++) {
-      for (let p = 0; p < k - 1; p++) {
+    if (tipoFactorizacion == CROUT) {
+      matrizU[k][k] = 1;
+
+      for (let s = 0; s < k; s++) {
+        productoParaDiagonal += matrizL[k][s] * matrizU[s][k];
+      }
+
+      matrizL[k][k] = (matriz[k][k] - productoParaDiagonal) / matrizU[k][k];
+    }
+
+    productoParaDiagonal = 0;
+
+    for (let j = k + 1; j < dimension; j++) {
+      for (let p = 0; p < k; p++) {
         productoParaU += matrizL[k][p] * matrizU[p][j];
       }
-      matrizU[k][j] = (matriz[k][j] - productoParaU)/matrizL[k][k];
+      matrizU[k][j] = (matriz[k][j] - productoParaU) / matrizL[k][k];
       productoParaU = 0;
     }
 
-    for (let i = k; i < dimension; i++) {
-      for (let p = 0; p < k - 1; p++) {
+    for (let i = k + 1; i < dimension; i++) {
+      for (let p = 0; p < k; p++) {
         productoParaL += matrizL[i][p] * matrizU[p][k];
       }
-      matrizL[i][k] = (matriz[i][k] - productoParaL)/matrizU[k][k];
+      matrizL[i][k] = (matriz[i][k] - productoParaL) / matrizU[k][k];
       productoParaL = 0;
     }
   }
-  
+
   console.log("MATRIZ L: ");
   console.log(matrizL);
   console.log("MATRIZ U: ");
@@ -96,13 +118,38 @@ function factorizacionDoolittleOCrout(matriz, tipoFactorizacion) {
   console.log(matriz);
 }
 
+function factorizacionCholesky(matriz) {
+  let dimension = matriz.length;
+  let sumaProductoParaL = 0;
+  let sumaProducto = 0;
+  let matrizL = inicializaMatrizEnCeros(dimension);
+  let matrizU = inicializaMatrizEnCeros(dimension);
+
+  for (let i = 0; i < dimension; i++)  {
+    for (let j = 0; j <= i; j++) {
+        let sum = 0;
+        for (let k = 0; k < j; k++) {
+            sum += matrizL[i][k] * matrizL[j][k];
+        }
+        if (i == j) matrizL[i][i] = Math.sqrt(matriz[i][i] - sum);
+        else        matrizL[i][j] = 1 / matrizL[j][j] * (matriz[i][j] - sum);
+    }
+    if (matrizL[i][i] <= 0) {
+        throw new RuntimeException("Matrix not positive definite");
+    }
+}
+  console.log("MATRIZ L: ");
+  console.log(matrizL);
+  console.log("MATRIZ: ");
+  console.log(matriz);
+}
 
 function inicializaMatrizEnCeros(dimension) {
-  var U = [];
+  var matrizCeros = [];
   for (let fil = 0; fil < dimension; fil++) {
-    U[fil] = [];
-    for (let col = 0; col < dimension; col++) U[fil][col] = 0;
+    matrizCeros[fil] = [];
+    for (let col = 0; col < dimension; col++) matrizCeros[fil][col] = 0;
   }
 
-  return U;
+  return matrizCeros;
 }
