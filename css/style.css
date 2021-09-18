@@ -1,0 +1,31 @@
+body {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.animacion {
+  position: relative;
+  width: 100%;
+  height: 300rpx;
+  animation: fadeTopIn 0.5s;
+}
+
+@keyframes fadeTopIn {
+  0% {
+    transform: translate3d(0, -20%, 0);
+    transform: translate3d(0, -20%, 0);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+input {
+  width: 50%;
+  height: 35px;
+  font-size: 35px;
+}
