@@ -46,13 +46,6 @@ export const algoritmosLU = {
         productoParaL = 0;
       }
     }
-  
-    console.log("MATRIZ L: ");
-    console.log(matrizL);
-    console.log("MATRIZ U: ");
-    console.log(matrizU);
-    console.log("MATRIZ: ");
-    console.log(matriz);
 
     const result = {
       matrizL,
@@ -79,11 +72,6 @@ export const algoritmosLU = {
         throw new Exception("Matrix not positive definite");
       }
     }
-    console.log("MATRIZ L: ");
-    console.table(matrizL);
-    console.log("MATRIZ: ");
-    console.log(matriz);
-
     return matrizL;
   }
 }

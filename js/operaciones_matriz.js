@@ -1,10 +1,12 @@
+import { decimalToFraction } from "./util.js";
+
 export default function inicial(dimension = 3) {
   const $cuerpoTabla = document.querySelector("#tabla_matriz");
-  
-  if(dimension < 2) throw "El minimo para la matriz es 2x2";
+
+  if (dimension < 2) throw "El minimo para la matriz es 2x2";
 
   $cuerpoTabla.innerHTML = " ";
-  
+
   for (let i = 0; i < dimension; i++) {
     const $tr = document.createElement("tr");
 
@@ -16,7 +18,8 @@ export default function inicial(dimension = 3) {
       celda.setAttribute("class", "form-control celda");
       celda.setAttribute("required", "true");
       celda.setAttribute("id", `${i}${j}`);
-
+      celda.setAttribute("placeholder", `0`);
+      
       $td.appendChild(celda);
       $tr.appendChild($td);
     }
@@ -29,18 +32,20 @@ export default function inicial(dimension = 3) {
 
 export const manejoDeMatriz = {
   aumentarTamanio() {
-    let dimension =
-      document.querySelector("#matriz tbody tr").childElementCount;
+    let dimension = document.querySelector("#matriz tbody tr").childElementCount;
     inicial(dimension + 1);
   },
   disminuirTamanio() {
-    let dimension =
-      document.querySelector("#matriz tbody tr").childElementCount;
+    let dimension = document.querySelector("#matriz tbody tr").childElementCount;
     inicial(dimension - 1);
   },
+  limpiarCeldas() {
+    let dimension = document.querySelector("#matriz tbody tr").childElementCount;
+    inicial(dimension)
+  }
 };
 
-export const imprimeMatriz = matriz => {
+export const imprimeMatriz = (matriz) => {
   let dimension = matriz.length;
   var $resultados = document.getElementById("resultados");
 
@@ -60,19 +65,20 @@ export const imprimeMatriz = matriz => {
       celda.setAttribute("id", `${i}${j}`);
       celda.disabled = true;
 
-      celda.value = matriz[i][j];
+      let valorEnFraccion = decimalToFraction(matriz[i][j]).display;
+      
+      celda.value = valorEnFraccion === "0/1" ? "0": valorEnFraccion;
 
       $td.appendChild(celda);
       $tr.appendChild($td);
-      
     }
     $cuerpoTablaResultados.appendChild($tr);
   }
 
   $tablaResultados.appendChild($cuerpoTablaResultados);
   $resultados.appendChild($tablaResultados);
-  $resultados.classList.add("animacion")
-}
+  $resultados.classList.add("animacion");
+};
 
 export const obtenerMatriz = () => {
   let matriz = [];
@@ -84,7 +90,6 @@ export const obtenerMatriz = () => {
 
       if (isNaN(valor) || isNaN(parseFloat(valor))) {
         throw new Error("Inserte valores válidos");
-        break;
       } else {
         fila[j] = parseFloat(valor);
       }

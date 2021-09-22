@@ -44,3 +44,16 @@ document.getElementById("quitarCeldas").addEventListener(
   },
   false
 );
+
+document.getElementById("limpiarCeldas").addEventListener(
+  "click",
+  function (event) {
+    try {
+      quitarAlerta();
+      manejoDeMatriz.limpiarCeldas();
+    } catch (mensaje) {
+      error(mensaje);
+    }
+  },
+  false
+);
