@@ -1,11 +1,12 @@
 import { decimalToFraction } from "./util.js";
+import { error, quitarAlerta } from "./alertas.js";
 
-export default function inicial(dimension = 3) {
+export const crearMatriz = function (dimension = 3) {
   const $cuerpoTabla = document.querySelector("#tabla_matriz");
 
   if (dimension < 2) throw "El minimo para la matriz es 2x2";
 
-  $cuerpoTabla.innerHTML = " ";
+  $cuerpoTabla.innerHTML = ``;
 
   for (let i = 0; i < dimension; i++) {
     const $tr = document.createElement("tr");
@@ -19,7 +20,7 @@ export default function inicial(dimension = 3) {
       celda.setAttribute("required", "true");
       celda.setAttribute("id", `${i}${j}`);
       celda.setAttribute("placeholder", `0`);
-      
+
       $td.appendChild(celda);
       $tr.appendChild($td);
     }
@@ -28,21 +29,25 @@ export default function inicial(dimension = 3) {
   }
 
   document.getElementById("00").focus();
-}
+};
 
 export const manejoDeMatriz = {
   aumentarTamanio() {
-    let dimension = document.querySelector("#matriz tbody tr").childElementCount;
-    inicial(dimension + 1);
+    let dimension =
+      document.querySelector("#matriz tbody tr").childElementCount;
+    console.log(document.querySelector("#matriz tbody tr"));
+    crearMatriz(dimension + 1);
   },
   disminuirTamanio() {
-    let dimension = document.querySelector("#matriz tbody tr").childElementCount;
-    inicial(dimension - 1);
+    let dimension =
+      document.querySelector("#matriz tbody tr").childElementCount;
+    crearMatriz(dimension - 1);
   },
   limpiarCeldas() {
-    let dimension = document.querySelector("#matriz tbody tr").childElementCount;
-    inicial(dimension)
-  }
+    let dimension =
+      document.querySelector("#matriz tbody tr").childElementCount;
+    crearMatriz(dimension);
+  },
 };
 
 export const imprimeMatriz = (matriz) => {
@@ -66,8 +71,8 @@ export const imprimeMatriz = (matriz) => {
       celda.disabled = true;
 
       let valorEnFraccion = decimalToFraction(matriz[i][j]).display;
-      
-      celda.value = valorEnFraccion === "0/1" ? "0": valorEnFraccion;
+
+      celda.value = valorEnFraccion === "0/1" ? "0" : valorEnFraccion;
 
       $td.appendChild(celda);
       $tr.appendChild($td);
@@ -105,3 +110,46 @@ export const obtenerMatriz = () => {
 
   return matriz;
 };
+
+document.getElementById("agregarCeldas").addEventListener(
+  "click",
+  function (event) {
+    try {
+      console.info("agregando filas");
+      quitarAlerta();
+      manejoDeMatriz.aumentarTamanio();
+      document.getElementById("00").focus();
+    } catch (mensaje) {
+      error(mensaje);
+    }
+  },
+  false
+);
+
+document.getElementById("quitarCeldas").addEventListener(
+  "click",
+  function (event) {
+    try {
+      quitarAlerta();
+      manejoDeMatriz.disminuirTamanio();
+      document.getElementById("00").focus();
+    } catch (mensaje) {
+      error(mensaje);
+    }
+  },
+  false
+);
+
+document.getElementById("limpiarCeldas").addEventListener(
+  "click",
+  function (event) {
+    try {
+      quitarAlerta();
+      manejoDeMatriz.limpiarCeldas();
+      document.getElementById("00").focus();
+    } catch (mensaje) {
+      error(mensaje);
+    }
+  },
+  false
+);

@@ -4,32 +4,32 @@ export const algoritmosLU = {
     let productoParaU = 0;
     let productoParaL = 0;
     let productoParaDiagonal = 0;
-  
+
     let matrizL = inicializaMatrizEnCeros(dimension);
     let matrizU = inicializaMatrizEnCeros(dimension);
-  
+
     for (let k = 0; k < dimension; k++) {
       if (tipoFactorizacion == DOOLITTLE) {
         matrizL[k][k] = 1;
-  
+
         for (let s = 0; s < k; s++) {
           productoParaDiagonal += matrizL[k][s] * matrizU[s][k];
         }
         matrizU[k][k] = (matriz[k][k] - productoParaDiagonal) / matrizL[k][k];
       }
-  
+
       if (tipoFactorizacion == CROUT) {
         matrizU[k][k] = 1;
-  
+
         for (let s = 0; s < k; s++) {
           productoParaDiagonal += matrizL[k][s] * matrizU[s][k];
         }
-  
+
         matrizL[k][k] = (matriz[k][k] - productoParaDiagonal) / matrizU[k][k];
       }
-  
+
       productoParaDiagonal = 0;
-  
+
       for (let j = k + 1; j < dimension; j++) {
         for (let p = 0; p < k; p++) {
           productoParaU += matrizL[k][p] * matrizU[p][j];
@@ -37,7 +37,7 @@ export const algoritmosLU = {
         matrizU[k][j] = (matriz[k][j] - productoParaU) / matrizL[k][k];
         productoParaU = 0;
       }
-  
+
       for (let i = k + 1; i < dimension; i++) {
         for (let p = 0; p < k; p++) {
           productoParaL += matrizL[i][p] * matrizU[p][k];
@@ -49,8 +49,8 @@ export const algoritmosLU = {
 
     const result = {
       matrizL,
-      matrizU
-    }
+      matrizU,
+    };
 
     return result;
   },
@@ -58,23 +58,27 @@ export const algoritmosLU = {
   cholesky(matriz) {
     let dimension = matriz.length;
     let matrizL = inicializaMatrizEnCeros(dimension);
-  
+
     for (let i = 0; i < dimension; i++) {
       for (let j = 0; j <= i; j++) {
         let sum = 0;
         for (let k = 0; k < j; k++) {
           sum += matrizL[i][k] * matrizL[j][k];
         }
-        if (i == j) matrizL[i][i] = parseFloat((Math.sqrt(matriz[i][i] - sum)).toFixed(4));
-        else matrizL[i][j] = parseFloat(((1 / matrizL[j][j]) * (matriz[i][j] - sum)).toFixed(4));
+        if (i == j)
+          matrizL[i][i] = parseFloat(Math.sqrt(matriz[i][i] - sum).toFixed(4));
+        else
+          matrizL[i][j] = parseFloat(
+            ((1 / matrizL[j][j]) * (matriz[i][j] - sum)).toFixed(4)
+          );
       }
       if (matrizL[i][i] <= 0) {
         throw new Exception("Matrix not positive definite");
       }
     }
     return matrizL;
-  }
-}
+  },
+};
 
 function validarYObtenerMatriz(m) {
   let matriz = [];
@@ -110,9 +114,7 @@ function validarYObtenerMatriz(m) {
     }
   }
   return matriz;
-
 }
-
 
 function reduccionGauss(matriz, pivoteoParcial) {
   let matrizAuxiliar = JSON.parse(JSON.stringify(matriz));
@@ -121,24 +123,23 @@ function reduccionGauss(matriz, pivoteoParcial) {
   let constante = 0;
 
   for (let k = 0; k < dimension - 1; k++) {
-    
     if (pivoteoParcial && k == 0) {
       matrizAuxiliar = aplicarPivoteoParcial(matrizAuxiliar, k);
     }
-    
+
     console.log("Matriz aplicando pivoteo: ");
     console.log(matrizAuxiliar);
-    
+
     for (let i = k + 1; i < dimension; i++) {
       constante = matrizAuxiliar[i][k] / matrizAuxiliar[k][k];
       for (let j = k; j < dimension; j++) {
-        matrizAuxiliar[i][j] = matrizAuxiliar[i][j] - (constante * matrizAuxiliar[k][j]);
+        matrizAuxiliar[i][j] =
+          matrizAuxiliar[i][j] - constante * matrizAuxiliar[k][j];
       }
     }
 
     console.log("Matriz aplicando gauss: ");
     console.log(matrizAuxiliar);
-   
   }
 }
 
