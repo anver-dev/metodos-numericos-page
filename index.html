@@ -77,7 +77,9 @@
     </div>
     <!-- Main -->
     <div class="height-100">
+      <div id="alerta"></div>
       <div id="inicio" class="row m-2 contenido visible animacion">
+        <!-- ToDo: metodos num. introduccion -->
         <div class="d-flex">
           <span class="bx bx-edit-alt title_icon"></span>
           <h5>Métodos Númericos</h5>
@@ -124,36 +126,52 @@
                 <var>A = LLt.</var>
               </p>
               <hr />
-              <div class="p-2">
-                <div id="matriz_invalida"></div>
-                <div id="contenedorBotones">
-                  <div class="btn-group btn-group-sm btn-matriz" role="group">
+              <div class="row p-2">
+                <div class="col-md-6">
+                  <div id="contenedorBotones">
+                    <div class="btn-group btn-group-sm btn-matriz" role="group">
+                      <button
+                        id="quitarCeldas"
+                        type="button"
+                        class="btn btn-danger"
+                      >
+                        <i class="bx bx-minus"></i>
+                      </button>
+                      <button
+                        id="limpiarCeldas"
+                        type="button"
+                        class="btn btn-secondary"
+                      >
+                        <i class="bx bx-trash-alt"></i>
+                      </button>
+                      <button
+                        id="agregarCeldas"
+                        type="button"
+                        class="btn btn-success"
+                      >
+                        <i class="bx bx-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <hr>
+                  <table id="matriz">
+                    <tbody id="tabla_matriz"></tbody>
+                  </table>
+                  <div class="d-grid gap-2 mt-2">
                     <button
-                      id="quitarCeldas"
-                      type="button"
-                      class="btn btn-danger"
-                    >
-                      <i class="bx bx-minus"></i>
-                    </button>
-                    <button
-                      id="limpiarCeldas"
-                      type="button"
-                      class="btn btn-secondary"
-                    >
-                      <i class="bx bx-trash-alt"></i>
-                    </button>
-                    <button
-                      id="agregarCeldas"
-                      type="button"
+                      id="resolverCholesky"
                       class="btn btn-success"
+                      type="button"
                     >
-                      <i class="bx bx-plus"></i>
+                      Resolver
                     </button>
                   </div>
                 </div>
-                <table id="matriz">
-                  <tbody id="tabla_matriz"></tbody>
-                </table>
+                <div class="col-md-6">
+                  <div class="m-3" id="tituloResultadosCholesky">
+                  </div>
+                  <div id="resultados"></div>
+                </div>
               </div>
             </div>
           </div>

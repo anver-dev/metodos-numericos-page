@@ -1,10 +1,11 @@
 import { decimalToFraction } from "./util.js";
-import { error, quitarAlerta } from "./alertas.js";
+import { error, quitarAlerta, choleskyResuelto, warning} from "./alertas.js";
 
 export const crearMatriz = function (dimension = 3) {
   const $cuerpoTabla = document.querySelector("#tabla_matriz");
 
-  if (dimension < 2) throw "El minimo para la matriz es 2x2";
+  if (dimension > 6) throw RangeError("El máximo para la matriz es 6x6");
+  if (dimension < 2) throw RangeError("El mínimo para la matriz es 2x2");
 
   $cuerpoTabla.innerHTML = ``;
 
@@ -71,8 +72,11 @@ export const imprimeMatriz = (matriz) => {
       celda.disabled = true;
 
       let valorEnFraccion = decimalToFraction(matriz[i][j]).display;
-
-      celda.value = valorEnFraccion === "0/1" ? "0" : valorEnFraccion;
+      
+      if(valorEnFraccion === "0/1") valorEnFraccion = "0";
+      if(valorEnFraccion === "1/1") valorEnFraccion = "1"
+      
+      celda.value =  valorEnFraccion;
 
       $td.appendChild(celda);
       $tr.appendChild($td);
@@ -83,6 +87,8 @@ export const imprimeMatriz = (matriz) => {
   $tablaResultados.appendChild($cuerpoTablaResultados);
   $resultados.appendChild($tablaResultados);
   $resultados.classList.add("animacion");
+  $resultados.classList.add("ms-3")
+  choleskyResuelto();
 };
 
 export const obtenerMatriz = () => {
@@ -119,8 +125,12 @@ document.getElementById("agregarCeldas").addEventListener(
       quitarAlerta();
       manejoDeMatriz.aumentarTamanio();
       document.getElementById("00").focus();
-    } catch (mensaje) {
-      error(mensaje);
+    } catch (e) {
+      if (e instanceof RangeError) {
+        warning(e.message);
+      } else {
+        error(e.message);
+      }
     }
   },
   false
@@ -133,8 +143,12 @@ document.getElementById("quitarCeldas").addEventListener(
       quitarAlerta();
       manejoDeMatriz.disminuirTamanio();
       document.getElementById("00").focus();
-    } catch (mensaje) {
-      error(mensaje);
+    } catch (e) {
+      if (e instanceof RangeError) {
+        warning(e.message);
+      } else {
+        error(e.message);
+      }
     }
   },
   false

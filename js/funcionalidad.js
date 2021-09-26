@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         const $divAMostrar = document.querySelector(idDiv);
 
         ocultaTodos(".contenido");
-        console.log($divAMostrar)
+        
         $divAMostrar.classList.remove("oculto");
         $divAMostrar.classList.add("visible");
         $divAMostrar.focus();
