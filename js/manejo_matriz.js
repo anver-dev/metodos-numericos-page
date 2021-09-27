@@ -1,5 +1,5 @@
 import { decimalToFraction } from "./util.js";
-import { error, quitarAlerta, choleskyResuelto, warning} from "./alertas.js";
+import { error, quitarAlerta, exito, warning} from "./alertas.js";
 
 export const crearMatriz = function (dimension = 3) {
   const $cuerpoTabla = document.querySelector("#tabla_matriz");
@@ -51,16 +51,28 @@ export const manejoDeMatriz = {
   },
 };
 
-export const imprimeMatriz = (matriz) => {
-  let dimension = matriz.length;
-  var $resultados = document.getElementById("resultados");
+export const limpiaResultados = () => {
+  let $contenedorResultados = document.getElementById("contenedorResultados");
 
+  $contenedorResultados.classList.remove("animate__bounceIn");
+  $contenedorResultados.classList.add("animate__bounceOut");
+}
+
+function generaMatrizDeResultados(matriz) {
+  quitarAlerta();
+
+  let dimension = matriz.length;
+  let $resultados = document.getElementById("resultados");
+  let $contenedorResultados = document.getElementById("contenedorResultados");
   let $tablaResultados = document.createElement("table");
   let $cuerpoTablaResultados = document.createElement("tbody");
+  
+  $contenedorResultados.classList.remove("animate__bounceOut");
+  $resultados.innerHTML = "";
 
   for (let i = 0; i < dimension; i++) {
     const $tr = document.createElement("tr");
-
+    
     for (let j = 0; j < dimension; j++) {
       let $td = document.createElement("td");
       let celda = document.createElement("input");
@@ -70,7 +82,7 @@ export const imprimeMatriz = (matriz) => {
       celda.setAttribute("required", "true");
       celda.setAttribute("id", `${i}${j}`);
       celda.disabled = true;
-
+      
       let valorEnFraccion = decimalToFraction(matriz[i][j]).display;
       
       if(valorEnFraccion === "0/1") valorEnFraccion = "0";
@@ -83,12 +95,18 @@ export const imprimeMatriz = (matriz) => {
     }
     $cuerpoTablaResultados.appendChild($tr);
   }
-
+  
   $tablaResultados.appendChild($cuerpoTablaResultados);
   $resultados.appendChild($tablaResultados);
-  $resultados.classList.add("animacion");
-  $resultados.classList.add("ms-3")
-  choleskyResuelto();
+  $resultados.classList.add("ms-3");
+  $contenedorResultados.classList.add("animate__bounceIn")
+  exito.choleskyResuelto();
+}
+
+export const imprimeMatriz = (matriz) => {
+  limpiaResultados();
+  setTimeout(function() {generaMatrizDeResultados(matriz)}, 700);
+  
 };
 
 export const obtenerMatriz = () => {
@@ -126,6 +144,7 @@ document.getElementById("agregarCeldas").addEventListener(
       manejoDeMatriz.aumentarTamanio();
       document.getElementById("00").focus();
     } catch (e) {
+      limpiaResultados();
       if (e instanceof RangeError) {
         warning(e.message);
       } else {
@@ -144,6 +163,7 @@ document.getElementById("quitarCeldas").addEventListener(
       manejoDeMatriz.disminuirTamanio();
       document.getElementById("00").focus();
     } catch (e) {
+      limpiaResultados();
       if (e instanceof RangeError) {
         warning(e.message);
       } else {
@@ -162,6 +182,7 @@ document.getElementById("limpiarCeldas").addEventListener(
       manejoDeMatriz.limpiarCeldas();
       document.getElementById("00").focus();
     } catch (mensaje) {
+      limpiaResultados();
       error(mensaje);
     }
   },
