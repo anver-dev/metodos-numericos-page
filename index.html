@@ -20,6 +20,7 @@
       rel="stylesheet"
     />
 
+    <!-- Animate -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -91,6 +92,7 @@
         </div>
         <hr />
       </div>
+      <!-- METODOS DIRECTOS -->
       <div id="metodosDirectos" class="row m-2 contenido oculto animacion">
         <div class="d-flex">
           <span class="bx bx-subdirectory-right title_icon"></span>
@@ -172,7 +174,10 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-6 animate__animated" id="contenedorResultados">
+                <div
+                  class="col-md-6 animate__animated"
+                  id="contenedorResultados"
+                >
                   <div class="m-3" id="tituloResultadosCholesky"></div>
                   <div id="resultados"></div>
                 </div>
@@ -180,12 +185,13 @@
             </div>
           </div>
         </div>
-        <div class="collapse content_collapse" id="collapseSeidel">
+        <div class="collapse content_collapse" id="collapseLU">
           <div class="card">
             <div class="card-body">Descomposicion LU</div>
           </div>
         </div>
       </div>
+      <!-- SOLUCIONES NUMERICAS -->
       <div id="ecuacionesNoLineales" class="row m-2 contenido oculto animacion">
         <div class="d-flex">
           <span class="bx bx-edit-alt title_icon"></span>
@@ -193,6 +199,7 @@
         </div>
         <hr />
       </div>
+      <!-- METODOS ITERATIVAS -->
       <div id="metodosIterativos" class="row m-2 contenido oculto animacion">
         <div class="d-flex">
           <span class="bx bx-recycle title_icon"></span>
@@ -224,7 +231,68 @@
         </p>
         <div class="collapse content_collapse" id="collapseJacobi">
           <div class="card">
-            <div class="card-body">Metodo de Jacobi</div>
+            <div class="card-body">
+              <p>
+                Para cada iteración, el método utiliza los valores previamente
+                estimados de las variables. En caso de ser la iteración inicial,
+                las variables tienen valores default, o bien, el usuario define
+                dichos valores.
+              </p>
+              <hr />
+              <div class="row p-2">
+                <div class="col-md-6">
+                  <div id="contenedorBotones">
+                    <div class="btn-group btn-group-sm btn-matriz" role="group">
+                      <button
+                        id="quitarCeldas"
+                        type="button"
+                        class="btn btn-danger"
+                      >
+                        <i class="bx bx-minus"></i>
+                      </button>
+                      <button
+                        id="limpiarCeldas"
+                        type="button"
+                        class="btn btn-secondary"
+                      >
+                        <i class="bx bx-trash-alt"></i>
+                      </button>
+                      <button
+                        id="agregarCeldas"
+                        type="button"
+                        class="btn btn-success"
+                      >
+                        <i class="bx bx-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <hr />
+                  <table id="matriz">
+                    <tbody id="tabla_matriza"></tbody>
+                  </table>
+                  <hr />
+                  <table id="vectorInicial">
+                    <tbody id="tabla_vectorInicial"></tbody>
+                  </table>
+                  <div class="d-grid gap-2 mt-2">
+                    <button
+                      id="resolverCholesky"
+                      class="btn btn-success"
+                      type="button"
+                    >
+                      Resolver
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="col-md-6 animate__animated"
+                  id="contenedorResultados"
+                >
+                  <div class="m-3" id="tituloResultadosCholesky"></div>
+                  <div id="resultados"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="collapse content_collapse" id="collapseSeidel">
@@ -251,5 +319,6 @@
       integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </body>
 </html>

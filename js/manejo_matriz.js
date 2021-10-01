@@ -1,5 +1,5 @@
 import { decimalToFraction } from "./util.js";
-import { error, quitarAlerta, exito, warning} from "./alertas.js";
+import { error, quitarAlerta, exito, warning } from "./alertas.js";
 
 export const crearMatriz = function (dimension = 3) {
   const $cuerpoTabla = document.querySelector("#tabla_matriz");
@@ -56,7 +56,34 @@ export const limpiaResultados = () => {
 
   $contenedorResultados.classList.remove("animate__bounceIn");
   $contenedorResultados.classList.add("animate__bounceOut");
-}
+};
+
+export const generaVectorInicial = (dimension = 3) => {
+  const $cuerpoTablaa = document.querySelector("#tabla_vectorInicial");
+
+  if (dimension > 6) throw RangeError("El máximo para la matriz es 6x6");
+  if (dimension < 2) throw RangeError("El mínimo para la matriz es 2x2");
+
+  $cuerpoTablaa.innerHTML = ``;
+
+  const $tr = document.createElement("tr");
+
+  for (let j = 0; j < dimension; j++) {
+    let $td = document.createElement("td");
+    let celda = document.createElement("input");
+
+    celda.setAttribute("type", "text");
+    celda.setAttribute("class", "form-control celda");
+    celda.setAttribute("required", "true");
+    celda.setAttribute("id", `${j}`);
+    celda.setAttribute("placeholder", `0`);
+
+    $td.appendChild(celda);
+    $tr.appendChild($td);
+  }
+
+  $cuerpoTablaa.appendChild($tr);
+};
 
 function generaMatrizDeResultados(matriz) {
   quitarAlerta();
@@ -66,13 +93,13 @@ function generaMatrizDeResultados(matriz) {
   let $contenedorResultados = document.getElementById("contenedorResultados");
   let $tablaResultados = document.createElement("table");
   let $cuerpoTablaResultados = document.createElement("tbody");
-  
+
   $contenedorResultados.classList.remove("animate__bounceOut");
   $resultados.innerHTML = "";
 
   for (let i = 0; i < dimension; i++) {
     const $tr = document.createElement("tr");
-    
+
     for (let j = 0; j < dimension; j++) {
       let $td = document.createElement("td");
       let celda = document.createElement("input");
@@ -82,31 +109,32 @@ function generaMatrizDeResultados(matriz) {
       celda.setAttribute("required", "true");
       celda.setAttribute("id", `${i}${j}`);
       celda.disabled = true;
-      
+
       let valorEnFraccion = decimalToFraction(matriz[i][j]).display;
-      
-      if(valorEnFraccion === "0/1") valorEnFraccion = "0";
-      if(valorEnFraccion === "1/1") valorEnFraccion = "1"
-      
-      celda.value =  valorEnFraccion;
+
+      if (valorEnFraccion === "0/1") valorEnFraccion = "0";
+      if (valorEnFraccion === "1/1") valorEnFraccion = "1";
+
+      celda.value = valorEnFraccion;
 
       $td.appendChild(celda);
       $tr.appendChild($td);
     }
     $cuerpoTablaResultados.appendChild($tr);
   }
-  
+
   $tablaResultados.appendChild($cuerpoTablaResultados);
   $resultados.appendChild($tablaResultados);
   $resultados.classList.add("ms-3");
-  $contenedorResultados.classList.add("animate__bounceIn")
+  $contenedorResultados.classList.add("animate__bounceIn");
   exito.choleskyResuelto();
 }
 
 export const imprimeMatriz = (matriz) => {
   limpiaResultados();
-  setTimeout(function() {generaMatrizDeResultados(matriz)}, 700);
-  
+  setTimeout(function () {
+    generaMatrizDeResultados(matriz);
+  }, 700);
 };
 
 export const obtenerMatriz = () => {
